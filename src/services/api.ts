@@ -1,6 +1,4 @@
-const API_LICENSE = 'C1b4K8ZUEBAV19f608766091391144ajya';
-const CHAT_ID = 'ovfwmhie58zfqzhe38hc5kbrjvmzzilj';
-const API_BASE_URL = 'https://haji-api.ir/chatgpt-3.5';
+const PROXY_BASE_URL = 'http://localhost:3001/proxy'; // آدرس سرور پروکسی
 
 export async function getDiagnosis(data: {
   age: string;
@@ -27,9 +25,9 @@ export async function getDiagnosis(data: {
   `.trim();
 
   try {
-    const response = await fetch(`${API_BASE_URL}/?${new URLSearchParams({
-      license: API_LICENSE,
-      chatId: CHAT_ID,
+    const response = await fetch(`${PROXY_BASE_URL}?${new URLSearchParams({
+      license: "C1b4K8ZUEBAV19f608766091391144ajya",
+      chatId: "ovfwmhie58zfqzhe38hc5kbrjvmzzilj",
       text: prompt,
     }).toString()}`, {
       method: 'GET',
@@ -40,13 +38,13 @@ export async function getDiagnosis(data: {
     });
 
     if (!response.ok) {
-      throw new Error(`خطا در دریافت پاسخ از سرور: ${response.status}`);
+      throw new Error(`خطا در دریافت پاسخ از سرور پروکسی: ${response.status}`);
     }
 
     const responseData = await response.json();
 
     if (!responseData.ok) {
-      throw new Error('پاسخی از سرور دریافت نشد');
+      throw new Error('پاسخی از سرور پروکسی دریافت نشد');
     }
 
     return {
@@ -54,6 +52,6 @@ export async function getDiagnosis(data: {
       message: responseData.answer,
     };
   } catch (error) {
-    throw new Error(error instanceof Error ? error.message : 'خطای ناشناخته در ارتباط با سرور');
+    throw new Error(error instanceof Error ? error.message : 'خطای ناشناخته در ارتباط با سرور پروکسی');
   }
 }
