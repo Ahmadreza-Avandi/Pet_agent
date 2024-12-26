@@ -1,4 +1,4 @@
-const PROXY_BASE_URL = 'http://localhost:3001/proxy'; // آدرس سرور پروکسی
+const PROXY_BASE_URL = 'https://mine-gpt-alpha.vercel.app/proxy'; // آدرس سرور پروکسی
 
 export async function getDiagnosis(data: {
   age: string;
