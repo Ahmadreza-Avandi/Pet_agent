@@ -158,7 +158,7 @@ function App() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 h-32"
-                  placeholder="لطفا توضیحات علائم بالا را بنویسید و درصورت مشاهده علائم دیگر اینجا درج کنید..."
+                  placeholder="لطفا توضیحات علائم بالا را بنویسید و درصورت داشتن آزمایش ها و مشاهده علائم دیگر اینجا درج کنید"
                   required
               />
             </div>
