@@ -1,6 +1,6 @@
 import {SelectedSymptom} from "../types";
 
-const PROXY_BASE_URL = 'https://mine-gpt-alpha.vercel.app/proxy'; // آدرس سرور پروکسی
+const PROXY_BASE_URL = 'http://localhost:3001/proxy'; // آدرس سرور پروکسی
 
 export async function getDiagnosis(data: {
   symptoms: SelectedSymptom[];
@@ -11,36 +11,39 @@ export async function getDiagnosis(data: {
   gender: string;
 }) {
   const prompt = `
-    حیوان خانگی با مشخصات زیر نیاز به تشخیص پزشکی دارد:
-    
-    سن: ${data.age} ماه
-    نوع حیوان: ${data.animalType} 
-     جنسیت حیوان :  ${data.gender} 
-     وزن حیوان :${data.weight}
-    علائم:
-    ${data.symptoms.map((s) => `- ${s.symptomLabel}: ${s.optionLabel}`).join('\n')}
-    
-    توضیحات اضافی:
-    ${data.description}
-    
-    لطفا موارد زیر را مشخص کنید:
-    1. تشخیص احتمالی
-    2. توصیه‌های درمانی
-    3. اقدامات اضطراری در صورت نیاز 
-  `.trim();
+شما یک دامپزشک متخصص هستید که باید با استفاده از اطلاعات زیر تشخیص پزشکی بدهید و راهنمایی درمانی ارائه دهید:
+
+- سن حیوان: ${data.age} ماه
+- نوع حیوان: ${data.animalType} 
+- جنسیت: ${data.gender} 
+- وزن: ${data.weight}
+- علائم اصلی:
+${data.symptoms.map((s) => `  * ${s.symptomLabel}: ${s.optionLabel}`).join('\n')}
+
+- توضیحات اضافی: ${data.description}
+
+وظایف شما:
+1. ارائه تشخیص‌های احتمالی با دلایل پزشکی دقیق.
+2. مشخص کردن روش‌های تشخیصی تکمیلی (مثلاً آزمایش‌های خون، تصویربرداری یا تست‌های خاص دیگر).
+3. پیشنهاد اقدامات درمانی (شامل داروها، تغذیه و راهکارهای حمایتی).
+4. ذکر اقدامات اضطراری که ممکن است مورد نیاز باشد.
+
+لطفاً به‌طور شفاف، مختصر و دقیق پاسخ دهید.
+`.trim();
+
 
   try {
     const response = await fetch(
-      `${PROXY_BASE_URL}?${new URLSearchParams({
-        text: prompt, // تنها پارامتر text ارسال می‌شود
-      }).toString()}`,
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }
+        `${PROXY_BASE_URL}?${new URLSearchParams({
+          text: prompt, // تنها پارامتر text ارسال می‌شود
+        }).toString()}`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
     );
 
     if (!response.ok) {
