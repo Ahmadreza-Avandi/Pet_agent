@@ -9,6 +9,8 @@ import { SelectedSymptom } from './types';
 
 function App() {
   const [age, setAge] = useState('');
+  const [weight , setWeight] = useState('');
+  const [gender, setGender] = useState('');
   const [animalType, setAnimalType] = useState('');
   const [selectedSymptom, setSelectedSymptom] = useState('');
   const [selectedSymptoms, setSelectedSymptoms] = useState<SelectedSymptom[]>([]);
@@ -51,6 +53,8 @@ function App() {
     try {
       const result = await getDiagnosis({
         age,
+        weight,
+        gender,
         animalType,
         symptoms: selectedSymptoms,
         description,
@@ -76,69 +80,100 @@ function App() {
             <div>
               <label className="block text-orange-700 font-medium mb-2">سن حیوان</label>
               <input
-                type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                placeholder="سن به ماه"
-                required
+                  type="number"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="سن به ماه"
+                  required
+              />
+            </div>
+
+            <div>
+              <label className="block text-orange-700 font-medium mb-2">وزن حیوان</label>
+              <input
+                  type="number"
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                  className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="وزن به کیلوگرم"
+                  required
               />
             </div>
 
             <div>
               <label className="block text-orange-700 font-medium mb-2">نوع حیوان</label>
               <select
-                value={animalType}
-                onChange={(e) => setAnimalType(e.target.value)}
-                className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                required
+                  value={animalType}
+                  onChange={(e) => setAnimalType(e.target.value)}
+                  className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  required
               >
                 <option value="">انتخاب کنید</option>
                 <option value="سگ">سگ</option>
                 <option value="گربه">گربه</option>
-                <option value="پرنده">پرنده</option>
+                <option value="گوسفند">گوسفند</option>
+                <option value="گاو">گاو</option>
+                <option value="اسب">اسب</option>
                 <option value="خرگوش">خرگوش</option>
+                <option value="طیور زینتی">طیور زینتی</option>
+                <option value="پرنده">پرنده</option>
+              </select>
+            </div>
+
+
+            <div>
+              <label className="block text-orange-700 font-medium mb-2">جنسیت حیوان</label>
+              <select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  required
+              >
+                <option value="">انتخاب کنید</option>
+                <option value="نر">نر</option>
+                <option value="ماده">ماده</option>
               </select>
             </div>
 
             <div>
               <SymptomSelect
-                symptoms={symptoms}
-                selectedSymptom={selectedSymptom}
-                onSymptomChange={setSelectedSymptom}
-                onOptionSelect={handleOptionSelect}
+                  symptoms={symptoms}
+                  selectedSymptom={selectedSymptom}
+                  onSymptomChange={setSelectedSymptom}
+                  onOptionSelect={handleOptionSelect}
               />
             </div>
 
             <SymptomList
-              selectedSymptoms={selectedSymptoms}
-              onRemove={handleRemoveSymptom}
+                selectedSymptoms={selectedSymptoms}
+                onRemove={handleRemoveSymptom}
             />
 
             <div>
               <label className="block text-orange-700 font-medium mb-2">توضیحات تکمیلی</label>
               <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 h-32"
-                placeholder="لطفاً هرگونه توضیح اضافی در مورد وضعیت حیوان خود را وارد کنید..."
-                required
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 h-32"
+                  placeholder="لطفاً هرگونه توضیح اضافی در مورد وضعیت حیوان خود را وارد کنید..."
+                  required
               />
             </div>
 
             <button
-              type="submit"
-              disabled={isLoading || selectedSymptoms.length === 0}
-              className="w-full bg-orange-600 text-white py-3 px-6 rounded-md hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                type="submit"
+                disabled={isLoading || selectedSymptoms.length === 0}
+                className="w-full bg-orange-600 text-white py-3 px-6 rounded-md hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               دریافت تشخیص
             </button>
           </form>
 
           <DiagnosisResult
-            isLoading={isLoading}
-            error={error}
-            result={result}
+              isLoading={isLoading}
+              error={error}
+              result={result}
           />
         </div>
       </div>
