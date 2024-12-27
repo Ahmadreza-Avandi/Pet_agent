@@ -80,11 +80,11 @@ function App() {
             <div>
               <label className="block text-orange-700 font-medium mb-2">سن حیوان</label>
               <input
-                  type="number"
+                  type="text"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
                   className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="سن به ماه"
+                  placeholder=" سن را وارد کنید "
                   required
               />
             </div>
@@ -117,11 +117,7 @@ function App() {
                 <option value="اسب">اسب</option>
                 <option value="خرگوش">خرگوش</option>
                 <option value="طیور زینتی">طیور زینتی</option>
-                <option value="ظیور صنعتی">طیور صنعتی</option> 
-                <option value="شتر">شتر</option> 
-                <option value="همستر">همستر</option>
-                <option value="خوکچه هندی">خوکچه هندی</option>
-                <option value="ماهی">ماهی</option>
+                <option value="پرنده">پرنده</option>
               </select>
             </div>
 
@@ -160,7 +156,7 @@ function App() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 h-32"
-                  placeholder="لطفاً هرگونه توضیح اضافی در مورد وضعیت حیوان خود را وارد کنید..."
+                  placeholder="لطفا توضیحات علائم بالا را بنویسید و درصورت مشاهده علائم دیگر اینجا درج کنید..."
                   required
               />
             </div>
@@ -184,5 +180,7 @@ function App() {
     </div>
   );
 }
+
+export default App;
 
 export default App;
