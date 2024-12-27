@@ -84,7 +84,7 @@ function App() {
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
                   className="w-full p-2 border border-orange-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder=" (ماه/سال را درج کنید)سن را وارد کنید "
+                  placeholder=".(ماه/سال را درج کنید)سن را وارد کنید "
                   required
               />
             </div>
