@@ -117,7 +117,11 @@ function App() {
                 <option value="اسب">اسب</option>
                 <option value="خرگوش">خرگوش</option>
                 <option value="طیور زینتی">طیور زینتی</option>
-                <option value="پرنده">پرنده</option>
+                <option value="ظیور صنعتی">طیور صنعتی</option> 
+                <option value="شتر">شتر</option> 
+                <option value="همستر">همستر</option>
+                <option value="خوکچه هندی">خوکچه هندی</option>
+                <option value="ماهی">ماهی</option>
               </select>
             </div>
 
