@@ -89,6 +89,61 @@ export const symptoms: Symptom[] = [
         ],
     },
 
+    {
+        id: 'sheep',
+        label: 'علائم اختصاصی گوسفند',
+        animalTypes: ['گوسفند'],
+        options: [
+            {id: 'wool_loss', label: 'ریزش پشم'},
+            {id: 'lameness', label: 'لنگش'},
+            {id: 'swollen_joints', label: 'تورم مفاصل'},
+            {id: 'nasal_discharge', label: 'ترشح بینی'},
+            {id: 'cough', label: 'سرفه'},
+            {id: 'diarrhea', label: 'اسهال'},
+            {id: 'weight_loss', label: 'کاهش وزن'},
+            {id: 'eye_discharge', label: 'ترشح چشمی'},
+            {id: 'abdominal_swelling', label: 'تورم شکم'},
+            {id: 'skin_lesions', label: 'زخم‌های پوستی'},
+            {id: 'lethargy', label: 'بی‌حالی'},
+        ],
+    },
+    {
+        id: 'horse',
+        label: 'علائم اختصاصی اسب',
+        animalTypes: ['اسب'],
+        options: [
+            {id: 'colic', label: 'دل‌پیچه'},
+            {id: 'laminitis', label: 'التهاب سم'},
+            {id: 'nasal_discharge', label: 'ترشح بینی'},
+            {id: 'cough', label: 'سرفه'},
+            {id: 'difficulty_breathing', label: 'مشکل در تنفس'},
+            {id: 'skin_allergies', label: 'حساسیت پوستی'},
+            {id: 'poor_performance', label: 'عملکرد ضعیف'},
+            {id: 'weight_loss', label: 'کاهش وزن'},
+            {id: 'swollen_legs', label: 'تورم پاها'},
+            {id: 'eye_inflammation', label: 'التهاب چشم'},
+            {id: 'hunched_posture', label: 'حالت قوز کردن'},
+        ],
+    },
+    {
+        id: 'hamster',
+        label: 'علائم اختصاصی همستر',
+        animalTypes: ['همستر'],
+        options: [
+            {id: 'wet_tail', label: 'دم خیس (بیماری دم تر)'},
+            {id: 'fur_loss', label: 'ریزش مو'},
+            {id: 'lethargy', label: 'بی‌حالی'},
+            {id: 'weight_loss', label: 'کاهش وزن'},
+            {id: 'diarrhea', label: 'اسهال'},
+            {id: 'eye_discharge', label: 'ترشح چشم'},
+            {id: 'nasal_discharge', label: 'ترشح بینی'},
+            {id: 'hunched_posture', label: 'حالت قوز کردن'},
+            {id: 'skin_irritation', label: 'تحریک پوستی'},
+            {id: 'teeth_problems', label: 'مشکلات دندان'},
+            {id: 'loss_of_appetite', label: 'بی‌اشتهایی'},
+        ],
+    },
+
 
     {
         id: 'general',
@@ -393,3 +448,4 @@ export const symptoms: Symptom[] = [
 
 
 ];
+
