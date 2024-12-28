@@ -11,9 +11,89 @@ export type Symptom = {
 
 export const symptoms: Symptom[] = [
     {
+        id: 'dog',
+        label: 'علائم اختصاصی سگ',
+        animalTypes: ['سگ'],
+        options: [
+            {id: 'lethargy', label: 'بی‌حالی و کاهش انرژی'},
+            {id: 'vomiting', label: 'استفراغ'},
+            {id: 'diarrhea', label: 'اسهال'},
+            {id: 'hair_loss', label: 'ریزش مو'},
+            {id: 'skin_itching', label: 'خارش پوستی یا قرمزی'},
+            {id: 'coughing', label: 'سرفه کردن'},
+            {id: 'limping', label: 'لنگیدن یا مشکلات حرکتی'},
+            {id: 'abnormal_appetite', label: 'افزایش یا کاهش اشتها'},
+            {id: 'weight_loss', label: 'کاهش وزن'},
+            {id: 'eye_discharge', label: 'ترشح غیرطبیعی از چشم‌ها'},
+            {id: 'bad_breath', label: 'بوی بد دهان'},
+            {id: 'excessive_thirst', label: 'تشنگی بیش از حد'},
+            {id: 'frequent_urination', label: 'تکرر ادرار'},
+            {id: 'abdominal_swelling', label: 'تورم شکمی'},
+            {id: 'seizures', label: 'تشنج یا لرزش غیرطبیعی'},
+            {id: 'behavior_change', label: 'تغییر در رفتار (اضطراب، پرخاشگری)'},
+        ],
+    }, {
+        id: 'cat',
+        label: 'علائم اختصاصی گربه',
+        animalTypes: ['گربه'],
+        options: [
+            {id: 'hiding', label: 'پنهان شدن غیرعادی'},
+            {id: 'vomiting', label: 'استفراغ'},
+            {id: 'weight_loss', label: 'کاهش وزن'},
+            {id: 'diarrhea', label: 'اسهال'},
+            {id: 'difficulty_breathing', label: 'مشکل در تنفس'},
+            {id: 'eye_discharge', label: 'ترشح چشم'},
+            {id: 'hairball', label: 'تشکیل گلوله مویی در معده'},
+            {id: 'poor_grooming', label: 'عدم نظافت شخصی'},
+            {id: 'frequent_scratching', label: 'خارش مکرر'},
+            {id: 'abnormal_posture', label: 'حالت بدن غیرطبیعی (مثل قوز کردن)'},
+            {id: 'excessive_vocalization', label: 'میو کردن بیش از حد'},
+            {id: 'lethargy', label: 'بی‌حالی و کاهش فعالیت'},
+            {id: 'pain_signs', label: 'علائم درد (مانند لیسیدن محل خاصی)'},
+        ],
+    }, {
+        id: 'cow',
+        label: 'علائم اختصاصی گاو',
+        animalTypes: ['گاو'],
+        options: [
+            {id: 'reduced_milk', label: 'کاهش تولید شیر'},
+            {id: 'loss_of_appetite', label: 'بی‌اشتهایی'},
+            {id: 'abnormal_rumen', label: 'اختلال در فعالیت شکمبه'},
+            {id: 'diarrhea', label: 'اسهال'},
+            {id: 'fever', label: 'تب'},
+            {id: 'nasal_discharge', label: 'ترشح بینی'},
+            {id: 'coughing', label: 'سرفه کردن'},
+            {id: 'lameness', label: 'لنگش'},
+            {id: 'weight_loss', label: 'کاهش وزن'},
+            {id: 'abdominal_pain', label: 'درد شکمی'},
+            {id: 'skin_lesions', label: 'ضایعات پوستی'},
+            {id: 'swollen_udders', label: 'تورم پستان'},
+        ],
+    },
+    {
+        id: 'rabbit',
+        label: 'علائم اختصاصی خرگوش',
+        animalTypes: ['خرگوش'],
+        options: [
+            {id: 'teeth_overgrowth', label: 'رشد بیش از حد دندان‌ها'},
+            {id: 'lethargy', label: 'بی‌حالی'},
+            {id: 'diarrhea', label: 'اسهال'},
+            {id: 'constipation', label: 'یبوست'},
+            {id: 'nasal_discharge', label: 'ترشح بینی'},
+            {id: 'ear_scratching', label: 'خارش گوش'},
+            {id: 'loss_of_appetite', label: 'بی‌اشتهایی'},
+            {id: 'hair_loss', label: 'ریزش مو'},
+            {id: 'abnormal_stools', label: 'مدفوع غیرطبیعی'},
+            {id: 'hunched_posture', label: 'حالت قوز کردن'},
+            {id: 'skin_irritation', label: 'تحریک پوستی'},
+        ],
+    },
+
+
+    {
         id: 'general',
         label: 'علائم عمومی و سیستمیک',
-        animalTypes: ['سگ', 'گربه', 'اسب', 'گاو', 'خرگوش', 'ماهی', 'طیور زینتی', 'طیور صنعتی'],
+        animalTypes: ['سگ', 'گربه', 'اسب', 'گاو', 'خرگوش', 'طیور زینتی', 'طیور صنعتی'],
         options: [
             {id: 'lethargy', label: 'بی‌حالی'},
             {id: 'fatigue', label: 'خستگی'},
@@ -23,7 +103,7 @@ export const symptoms: Symptom[] = [
             {id: 'overeating', label: 'پرخوری'},
             {id: 'weight_loss', label: 'کاهش غیرطبیعی وزن'},
             {id: 'weight_gain', label: 'افزایش غیرطبیعی وزن'},
-            {id: 'fever', label: 'تب (دمای بالای 39.2 درجه سانتی‌گراد)'},
+            {id: 'fever', label: 'تب '},
             {id: 'shivering', label: 'لرز'},
             {id: 'weakness', label: 'ضعف عمومی'},
             {id: 'general_pain', label: 'درد عمومی بدن'},
@@ -44,7 +124,7 @@ export const symptoms: Symptom[] = [
     {
         id: 'behavioral',
         label: 'علائم رفتاری',
-        animalTypes: ['سگ', 'گربه', 'اسب', 'گاو', 'خرگوش', 'طیور زینتی', 'طیور صنعتی', 'ماهی'],
+        animalTypes: ['سگ', 'گربه', 'اسب', 'گاو', 'خرگوش'],
         options: [
             {id: 'aggression', label: 'پرخاشگری غیرطبیعی'},
             {id: 'anxiety', label: 'اضطراب'},
@@ -72,7 +152,7 @@ export const symptoms: Symptom[] = [
     {
         id: 'digestive',
         label: 'علائم گوارشی',
-        animalTypes: ['سگ', 'گربه', 'اسب', 'گاو', 'خرگوش', 'طیور زینتی', 'طیور صنعتی'],
+        animalTypes: ['سگ', 'گربه', 'اسب', 'گاو', 'خرگوش'],
         options: [
             {id: 'vomiting', label: 'استفراغ'},
             {id: 'diarrhea', label: 'اسهال'},
@@ -313,4 +393,3 @@ export const symptoms: Symptom[] = [
 
 
 ];
-
