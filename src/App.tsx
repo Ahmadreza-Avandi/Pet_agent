@@ -272,14 +272,41 @@ function App() {
             </form>
 
             <DiagnosisResult
-              isLoading={isLoading}
-              error={error}
-              result={result}
+                isLoading={isLoading}
+                error={error}
+                result={result}
             />
+            <Box
+                sx={{
+                  textAlign: 'center',
+                  mt: 4,
+                  py: 2,
+                  borderTop: '1px solid #ccc',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+            >
+              <img
+                  src="logo.png" // لینک عکس شما
+                  alt="لوگو"
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                    marginRight: '8px',
+                  }}
+              />
+              <Typography variant="body2" color="textSecondary">
+                کاری از گروه ربیت
+              </Typography>
+            </Box>
+
           </Paper>
         </Container>
       </Box>
-    </ThemeProvider>
+
+
+      </ThemeProvider>
   );
 }
 
