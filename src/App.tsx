@@ -289,7 +289,7 @@ function App() {
             >
               <img
                   src="logo.png" // لینک عکس شما
-                  alt="لوگو"
+                  alt="https://postimg.cc/68qf29H1"
                   style={{
                     width: '24px',
                     height: '24px',
