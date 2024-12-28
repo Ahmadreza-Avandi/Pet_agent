@@ -1,9 +1,9 @@
-import React from 'react';
-import { 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem, 
+import React, { useState } from 'react';
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   Box,
   Button,
   Grid,
@@ -26,15 +26,24 @@ export function SymptomSelect({
   onOptionSelect,
   animalType
 }: SymptomSelectProps) {
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // ذخیره گزینه‌های انتخاب‌شده
   const selectedSymptomData = symptoms.find(s => s.id === selectedSymptom);
   const filteredSymptoms = symptoms.filter(s => s.animalTypes.includes(animalType));
+
+  // فیلتر علائم با توجه به انتخاب‌های قبلی
+  const availableSymptoms = filteredSymptoms.filter(s => !selectedOptions.includes(s.id));
+
+  const handleOptionSelect = (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => {
+    onOptionSelect(symptomId, optionId, symptomLabel, optionLabel);
+    setSelectedOptions(prev => [...prev, optionId]); // اضافه کردن به گزینه‌های انتخاب‌شده
+  };
 
   return (
     <Box sx={{ mt: 2 }}>
       <Typography variant="subtitle1" color="warning.dark" gutterBottom>
         علائم مشاهده شده
       </Typography>
-      
+
       <FormControl fullWidth sx={{ mb: 2 }}>
         <InputLabel>انتخاب علامت</InputLabel>
         <Select
@@ -46,7 +55,7 @@ export function SymptomSelect({
           <MenuItem value="">
             <em>انتخاب کنید</em>
           </MenuItem>
-          {filteredSymptoms.map(symptom => (
+          {availableSymptoms.map(symptom => (
             <MenuItem key={symptom.id} value={symptom.id}>
               {symptom.label}
             </MenuItem>
@@ -62,7 +71,7 @@ export function SymptomSelect({
                 fullWidth
                 variant="outlined"
                 color="warning"
-                onClick={() => onOptionSelect(selectedSymptom, option.id, selectedSymptomData.label, option.label)}
+                onClick={() => handleOptionSelect(selectedSymptom, option.id, selectedSymptomData.label, option.label)}
                 sx={{
                   justifyContent: 'flex-start',
                   textAlign: 'right',
@@ -70,6 +79,7 @@ export function SymptomSelect({
                   overflow: 'hidden',
                   textOverflow: 'ellipsis'
                 }}
+                disabled={selectedOptions.includes(option.id)} // غیرفعال کردن گزینه‌های انتخاب‌شده
               >
                 {option.label}
               </Button>
