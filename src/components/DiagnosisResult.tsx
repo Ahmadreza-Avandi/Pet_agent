@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Paper, Typography } from '@mui/material';
 
 interface DiagnosisResultProps {
@@ -9,6 +9,22 @@ interface DiagnosisResultProps {
 }
 
 const DiagnosisResult: React.FC<DiagnosisResultProps> = ({ result }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const fullText = result?.result || result?.message || '';
+
+  useEffect(() => {
+    if (!fullText) return;
+
+    let currentIndex = 0;
+    const typingInterval = setInterval(() => {
+      setDisplayedText((prev) => prev + fullText[currentIndex]);
+      currentIndex++;
+      if (currentIndex === fullText.length) clearInterval(typingInterval);
+    }, 25);
+
+    return () => clearInterval(typingInterval); // پاک کردن تایمر در هنگام unmount
+  }, [fullText]);
+
   if (!result) return null;
 
   return (
@@ -39,9 +55,10 @@ const DiagnosisResult: React.FC<DiagnosisResultProps> = ({ result }) => {
       >
         نتیجه تشخیص
       </Typography>
-      <pre>{result.result || result.message}</pre>
+      <pre>{displayedText}</pre>
     </Paper>
   );
 };
 
 export default DiagnosisResult;
+
