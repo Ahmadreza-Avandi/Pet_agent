@@ -14,6 +14,7 @@ export async function getDiagnosis(data: {
     description: string;
     age: string;
     gender: string;
+    labTests?: string; // اضافه کردن فیلد labTests
 }): Promise<DiagnosisResponse> {
     const prompt = `
 شما یک دامپزشک متخصص با تجربه بالا هستید. با استفاده از اطلاعات زیر، تشخیص پزشکی دقیق بدهید و یک برنامه درمانی جامع ارائه دهید:
@@ -25,6 +26,8 @@ export async function getDiagnosis(data: {
 - **علائم اصلی:**
 ${data.symptoms.map((s) => `  * ${s.symptomLabel}: ${s.optionLabel}`).join('\n')}
 - **توضیحات اضافی:** ${data.description}
+
+${data.labTests ? `- **آزمایش‌ها:** ${data.labTests}` : ''}
 
 ### وظایف شما:
 1. **تشخیص‌های احتمالی:** 
@@ -80,4 +83,5 @@ ${data.symptoms.map((s) => `  * ${s.symptomLabel}: ${s.optionLabel}`).join('\n')
             error instanceof Error ? error.message : 'خطای ناشناخته در ارتباط با سرور پروکسی'
         );
     }
-}
+} 
+
