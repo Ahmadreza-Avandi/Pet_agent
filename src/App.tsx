@@ -19,7 +19,8 @@ import { SymptomList } from './components/SymptomList';
 import DiagnosisResult from './components/DiagnosisResult';
 
 import { getDiagnosis } from './services/api';
-import type { SelectedSymptom } from './types';
+import type { DiagnosisInput, SelectedSymptom } from './types';
+
 
 const theme = createTheme({
   direction: 'rtl',
@@ -46,6 +47,7 @@ function App() {
   const [selectedSymptom, setSelectedSymptom] = useState('');
   const [selectedSymptoms, setSelectedSymptoms] = useState<SelectedSymptom[]>([]);
   const [description, setDescription] = useState('');
+  const [labTests, setLabTests] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<any | null>(null);
@@ -68,38 +70,43 @@ function App() {
   };
 
   const handleRemoveSymptom = (symptom: SelectedSymptom) => {
-    setSelectedSymptoms(prev => 
-      prev.filter(s => 
-        !(s.symptomId === symptom.symptomId && s.optionId === symptom.optionId)
-      )
+    setSelectedSymptoms(prev =>
+        prev.filter(s =>
+            !(s.symptomId === symptom.symptomId && s.optionId === symptom.optionId)
+        )
     );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-    setResult(null);
+  e.preventDefault();
+  setIsLoading(true);
+  setError(null);
+  setResult(null);
 
-    try {
-      const result = await getDiagnosis({
-        age,
-        weight,
-        gender,
-        animalType,
-        symptoms: selectedSymptoms,
-        description,
-      });
-      setResult(result);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'خطای ناشناخته');
-    } finally {
-      setIsLoading(false);
-    }
+  const input: DiagnosisInput = {
+    age,
+    weight,
+    gender,
+    animalType,
+    symptoms: selectedSymptoms,
+    description,
+    labTests, // ارسال labTests
   };
 
+  try {
+    const result = await getDiagnosis(input);
+    setResult(result);
+  } catch (err) {
+    setError(err instanceof Error ? err.message : 'خطای ناشناخته');
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+
   return (
-    <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box
         sx={{
@@ -224,6 +231,19 @@ function App() {
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="لطفا توضیحات علائم بالا را بنویسید و درصورت داشتن آزمایش ها و مشاهده علائم دیگر اینجا درج کنید"
                     required
+                  />
+                </Grid>
+
+                 {/* کادر اختیاری برای آزمایش‌ها */}
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
+                    label="آزمایش‌ها (اختیاری)"
+                    value={labTests}
+                    onChange={(e) => setLabTests(e.target.value)}
+                    placeholder="نتایج آزمایش‌های مرتبط را اینجا وارد کنید (در صورت وجود)"
                   />
                 </Grid>
 
