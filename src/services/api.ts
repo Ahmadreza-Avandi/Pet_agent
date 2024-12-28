@@ -1,68 +1,78 @@
-import { SelectedSymptom } from "../types";
+import {SelectedSymptom} from "../types";
 
-const PROXY_BASE_URL = 'https://mine-gpt-alpha.vercel.app/proxy';
+const PROXY_BASE_URL = 'https://mine-gpt-alpha.vercel.app/proxy'; // آدرس سرور پروکسی
 
 export async function getDiagnosis(data: {
-  symptoms: SelectedSymptom[];
-  animalType: string;
-  weight: string;
-  description: string;
-  age: string;
-  gender: string;
+    symptoms: SelectedSymptom[];
+    animalType: string;
+    weight: string;
+    description: string;
+    age: string;
+    gender: string;
 }) {
-  const prompt = `
-شما یک دامپزشک متخصص هستید که باید با استفاده از اطلاعات زیر تشخیص پزشکی بدهید و راهنمایی درمانی ارائه دهید:
+    const prompt = `
+شما یک دامپزشک متخصص با تجربه بالا هستید. با استفاده از اطلاعات زیر، تشخیص پزشکی دقیق بدهید و یک برنامه درمانی جامع ارائه دهید:
 
-- سن حیوان: ${data.age} ماه
-- نوع حیوان: ${data.animalType} 
-- جنسیت: ${data.gender} 
-- وزن: ${data.weight}
-- علائم اصلی:
+- **سن حیوان:** ${data.age} ماه
+- **نوع حیوان:** ${data.animalType} 
+- **جنسیت:** ${data.gender} 
+- **وزن:** ${data.weight}
+- **علائم اصلی:**
 ${data.symptoms.map((s) => `  * ${s.symptomLabel}: ${s.optionLabel}`).join('\n')}
+- **توضیحات اضافی:** ${data.description}
 
-- توضیحات اضافی: ${data.description}
+### وظایف شما:
+1. **تشخیص‌های احتمالی:** 
+   - حداقل ۳ بیماری احتمالی با جزئیات دقیق و دلایل علمی ذکر کنید.
+   - برای هر بیماری، علائم اصلی و چگونگی ارتباط آن‌ها را توضیح دهید.
+   
+2. **روش‌های تشخیصی تکمیلی:**
+   - لیستی از آزمایش‌های دقیق مورد نیاز (خون، ادرار، تصویربرداری) با دلایل آن‌ها ارائه دهید.
 
-وظایف شما:
-1. ارائه تشخیص‌های احتمالی با دلایل پزشکی دقیق، با توجه به علائم و وضعیت فعلی حداقل 3 تا نام ببر علاعم اصلی اون بیماری رو بگو.
-2. بررسی ارتباط علائم با بیماری‌های احتمالی خاص (مثلاً مشکلات دهانی، قلبی، تنفسی و ...).
-3. مشخص کردن روش‌های تشخیصی تکمیلی (مانند آزمایش‌های خون، تصویربرداری یا تست‌های خاص دیگر).
-4. پیشنهاد اقدامات درمانی شامل داروها، تغذیه و راهکارهای حمایتی بر اساس نوع بیماری.
-5. ذکر اقدامات اضطراری که ممکن است مورد نیاز باشد.
+3. **برنامه درمانی:**
+   - داروهای لازم را با دوز دقیق بر اساس وزن و سن حیوان پیشنهاد دهید.
+   - نحوه مصرف دارو (خوراکی، تزریقی و ...) و زمان‌بندی مصرف را ذکر کنید.
+   - در صورت نیاز، **سرم‌تراپی** مناسب را با نوع سرم و مقدار مشخص پیشنهاد دهید.
 
-لطفاً به‌طور شفاف، مختصر و دقیق پاسخ دهید و توجه کنید که تشخیص‌ها باید بر اساس علائم ارائه‌شده انجام شوند.  
+4. **اقدامات حمایتی و پیشگیرانه:**
+   - تغییرات تغذیه‌ای یا محیطی که ممکن است به درمان کمک کند.
+   - پیشنهاداتی برای پیشگیری از بیماری‌های مشابه در آینده.
+
+### لطفاً پاسخ را به‌طور دقیق، شفاف و علمی ارائه دهید.
 `.trim();
 
-  try {
-    const response = await fetch(
-      `${PROXY_BASE_URL}?${new URLSearchParams({
-        text: prompt,
-      }).toString()}`,
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    try {
+        const response = await fetch(
+            `${PROXY_BASE_URL}?${new URLSearchParams({
+                text: prompt, // تنها پارامتر text ارسال می‌شود
+            }).toString()}`,
+            {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
 
-    if (!response.ok) {
-      throw new Error(`خطا در دریافت پاسخ از سرور پروکسی: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`خطا در دریافت پاسخ از سرور پروکسی: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+
+        // بررسی ساختار پاسخ جدید
+        if (!responseData.results) {
+            throw new Error('پاسخی از سرور پروکسی دریافت نشد');
+        }
+
+        return {
+            result: responseData.results, // داده‌های جدید از فیلد "results"
+            message: responseData.results,
+        };
+    } catch (error) {
+        throw new Error(
+            error instanceof Error ? error.message : 'خطای ناشناخته در ارتباط با سرور پروکسی'
+        );
     }
-
-    const responseData = await response.json();
-
-    if (!responseData.results) {
-      throw new Error('پاسخی از سرور پروکسی دریافت نشد');
-    }
-
-    return {
-      result: responseData.results,
-      message: responseData.results,
-    };
-  } catch (error) {
-    throw new Error(
-      error instanceof Error ? error.message : 'خطای ناشناخته در ارتباط با سرور پروکسی'
-    );
-  }
 }
