@@ -1,6 +1,11 @@
-import {SelectedSymptom} from "../types";
+import { SelectedSymptom } from "../types";
 
 const PROXY_BASE_URL = 'https://mine-gpt-alpha.vercel.app/proxy'; // آدرس سرور پروکسی
+
+export interface DiagnosisResponse {
+    result: string;
+    message: string;
+}
 
 export async function getDiagnosis(data: {
     symptoms: SelectedSymptom[];
@@ -9,7 +14,7 @@ export async function getDiagnosis(data: {
     description: string;
     age: string;
     gender: string;
-}) {
+}): Promise<DiagnosisResponse> {
     const prompt = `
 شما یک دامپزشک متخصص با تجربه بالا هستید. با استفاده از اطلاعات زیر، تشخیص پزشکی دقیق بدهید و یک برنامه درمانی جامع ارائه دهید:
 
@@ -67,7 +72,7 @@ ${data.symptoms.map((s) => `  * ${s.symptomLabel}: ${s.optionLabel}`).join('\n')
         }
 
         return {
-            result: responseData.results, // داده‌های جدید از فیلد "results"
+            result: responseData.results,
             message: responseData.results,
         };
     } catch (error) {
