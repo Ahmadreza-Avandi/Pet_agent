@@ -10,3 +10,13 @@ export interface DiagnosisResult {
   recommendations: string[];
   confidence: number;
 }
+
+export interface DiagnosisInput {
+  age: string;
+  weight: string;
+  gender: string;
+  animalType: string;
+  symptoms: SelectedSymptom[];
+  description: string;
+  labTests?: string; // اضافه کردن labTests به عنوان یک خاصیت اختیاری
+}
