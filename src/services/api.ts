@@ -1,6 +1,6 @@
 import { SelectedSymptom } from "../types";
 
-const PROXY_BASE_URL = 'https://mine-gpt-alpha.vercel.app/proxy'; // آدرس سرور پروکسی
+const PROXY_BASE_URL = 'https://irandvm.ir/proxy'; // آدرس سرور پروکسی
 
 export interface DiagnosisResponse {
     result: string;
