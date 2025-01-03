@@ -17,7 +17,7 @@ interface SymptomSelectProps {
   onSymptomChange: (symptomId: string) => void;
   onOptionSelect: (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => void;
   animalType: string;
-  onAddSymptom: (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => void; // جدید
+  onAddSymptom: (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => void;
 }
 
 export function SymptomSelect({
@@ -26,7 +26,7 @@ export function SymptomSelect({
   onSymptomChange,
   onOptionSelect,
   animalType,
-  onAddSymptom // جدید
+  onAddSymptom
 }: SymptomSelectProps) {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // ذخیره گزینه‌های انتخاب‌شده
   const selectedSymptomData = symptoms.find(s => s.id === selectedSymptom);
