@@ -36,6 +36,7 @@ export function SymptomSelect({
   const availableSymptoms = filteredSymptoms.filter(s => !selectedOptions.includes(s.id));
 
   const handleOptionSelect = (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => {
+    // در اینجا می‌خواهیم وقتی که کاربر انتخاب می‌کند، لیست بسته نشود و گزینه انتخابی به لیست اضافه شود.
     onOptionSelect(symptomId, optionId, symptomLabel, optionLabel);
     setSelectedOptions(prev => [...prev, optionId]); // اضافه کردن به گزینه‌های انتخاب‌شده
     onAddSymptom(symptomId, optionId, symptomLabel, optionLabel); // اضافه کردن علامت انتخابی به لیست علائم
@@ -61,7 +62,7 @@ export function SymptomSelect({
                 overflow: 'auto',
               },
             },
-            disableScrollLock: true, // جلوگیری از بستن خودکار لیست بعد از انتخاب
+            disableScrollLock: true, // جلوگیری از بسته شدن خودکار لیست بعد از انتخاب
           }}
         >
           <MenuItem value="">
@@ -91,7 +92,7 @@ export function SymptomSelect({
                   overflow: 'hidden',
                   textOverflow: 'ellipsis'
                 }}
-                disabled={selectedOptions.includes(option.id)} // غیرفعال کردن گزینه‌های انتخاب‌شده
+                disabled={selectedOptions.includes(option.id)} // فقط گزینه‌های انتخاب‌شده غیرفعال می‌شوند
               >
                 {option.label}
               </Button>
@@ -102,3 +103,4 @@ export function SymptomSelect({
     </Box>
   );
 }
+
