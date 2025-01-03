@@ -35,3 +35,4 @@ export function SymptomList({ selectedSymptoms, onRemove }: SymptomListProps) {
     </Box>
   );
 }
+
