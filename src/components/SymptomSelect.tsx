@@ -54,6 +54,15 @@ export function SymptomSelect({
           label="انتخاب علامت"
           onChange={(e) => onSymptomChange(e.target.value)}
           disabled={!animalType}
+          MenuProps={{
+            PaperProps: {
+              sx: {
+                maxHeight: '400px', // حداکثر ارتفاع لیست
+                overflow: 'auto',
+              },
+            },
+            disableScrollLock: true, // جلوگیری از بستن خودکار لیست بعد از انتخاب
+          }}
         >
           <MenuItem value="">
             <em>انتخاب کنید</em>
