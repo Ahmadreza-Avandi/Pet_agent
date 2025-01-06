@@ -77,33 +77,33 @@ function App() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-    setResult(null);
+  e.preventDefault();
+  setIsLoading(true);
+  setError(null);
+  setResult(null);
 
-    const input: DiagnosisInput = {
-      age,
-      weight,
-      gender,
-      animalType,
-      symptoms: selectedSymptoms,
-      description,
-      labTests,
-    };
-
-    try {
-      const result = await getDiagnosis(input);
-      setResult(result);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'خطای ناشناخته');
-    } finally {
-      setIsLoading(false);
-    }
+  const input: DiagnosisInput = {
+    age,
+    weight,
+    gender,
+    animalType,
+    symptoms: selectedSymptoms,
+    description,
+    labTests, // ارسال labTests
   };
 
+  try {
+    const result = await getDiagnosis(input);
+    setResult(result);
+  } catch (err) {
+    setError(err instanceof Error ? err.message : 'خطای ناشناخته');
+  } finally {
+    setIsLoading(false);
+  }
+};
+
   return (
-    <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box
         sx={{
@@ -140,7 +140,6 @@ function App() {
 
             <form onSubmit={handleSubmit}>
               <Grid container spacing={3}>
-                {/* Input fields for age, weight, animalType, gender */}
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
@@ -202,7 +201,6 @@ function App() {
                   </TextField>
                 </Grid>
 
-                {/* Symptom Select and List */}
                 <Grid item xs={12}>
                   <SymptomSelect
                     symptoms={symptoms}
@@ -210,6 +208,7 @@ function App() {
                     onSymptomChange={setSelectedSymptom}
                     onOptionSelect={handleOptionSelect}
                     animalType={animalType}
+                    disabled={selectedSymptoms.length > 0} // غیر فعال کردن بعد از انتخاب علائم
                   />
                 </Grid>
 
@@ -220,7 +219,6 @@ function App() {
                   />
                 </Grid>
 
-                {/* Description and lab tests */}
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
@@ -271,15 +269,40 @@ function App() {
             </form>
 
             <DiagnosisResult
-              isLoading={isLoading}
-              error={error}
-              result={result}
+                isLoading={isLoading}
+                error={error}
+                result={result}
             />
+            <Box
+                sx={{
+                  textAlign: 'center',
+                  mt: 4,
+                  py: 2,
+                  borderTop: '1px solid #ccc',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+            >
+              <img
+                  src="logo.png" // لینک عکس شما
+                  alt="لوگو"
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                    marginRight: '8px',
+                  }}
+              />
+              <Typography variant="body2" color="textSecondary">
+                کاری از گروه ربیت
+              </Typography>
+            </Box>
+
           </Paper>
         </Container>
       </Box>
-    </ThemeProvider>
+      </ThemeProvider>
   );
 }
 
-export default App;
+export default App; 
