@@ -30,13 +30,11 @@ export function SymptomSelect({
 }: SymptomSelectProps) {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // ذخیره گزینه‌های انتخاب‌شده
   const selectedSymptomData = symptoms.find(s => s.id === selectedSymptom);
+
+  // فیلتر علائم با توجه به نوع حیوان
   const filteredSymptoms = symptoms.filter(s => s.animalTypes.includes(animalType));
 
-  // فیلتر علائم با توجه به انتخاب‌های قبلی
-  const availableSymptoms = filteredSymptoms.filter(s => !selectedOptions.includes(s.id));
-
   const handleOptionSelect = (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => {
-    // در اینجا می‌خواهیم وقتی که کاربر انتخاب می‌کند، لیست بسته نشود و گزینه انتخابی به لیست اضافه شود.
     onOptionSelect(symptomId, optionId, symptomLabel, optionLabel);
     setSelectedOptions(prev => [...prev, optionId]); // اضافه کردن به گزینه‌های انتخاب‌شده
     onAddSymptom(symptomId, optionId, symptomLabel, optionLabel); // اضافه کردن علامت انتخابی به لیست علائم
@@ -68,7 +66,7 @@ export function SymptomSelect({
           <MenuItem value="">
             <em>انتخاب کنید</em>
           </MenuItem>
-          {availableSymptoms.map(symptom => (
+          {filteredSymptoms.map(symptom => (
             <MenuItem key={symptom.id} value={symptom.id}>
               {symptom.label}
             </MenuItem>
@@ -103,3 +101,4 @@ export function SymptomSelect({
     </Box>
   );
 }
+
