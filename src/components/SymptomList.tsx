@@ -1,78 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Chip, Box, Typography } from '@mui/material';
+import { X } from 'lucide-react';
+import { SelectedSymptom } from '../types';
 
-// نمونه‌ی علائم شما
-import { symptoms } from './data/symptoms';
+interface SymptomListProps {
+  selectedSymptoms: SelectedSymptom[];
+  onRemove: (symptom: SelectedSymptom) => void;
+}
 
-const SymptomsComponent = () => {
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
-  const [isGeneralVisible, setIsGeneralVisible] = useState<boolean>(false);
-
-  const handleSelectSymptom = (symptomId: string, isGeneral: boolean) => {
-    setSelectedSymptoms((prevSelected) => {
-      if (prevSelected.includes(symptomId)) {
-        // اگر قبلاً انتخاب شده بود، آن را حذف می‌کنیم
-        return prevSelected.filter(id => id !== symptomId);
-      }
-      // در غیر اینصورت، آن را به لیست اضافه می‌کنیم
-      return [...prevSelected, symptomId];
-    });
-
-    // اگر علائم عمومی انتخاب شده باشد، آن را نمایش می‌دهیم
-    if (isGeneral) {
-      setIsGeneralVisible(true);
-    }
-  };
-
-  const handleToggleGeneral = () => {
-    setIsGeneralVisible(prev => !prev);
-  };
+export function SymptomList({ selectedSymptoms, onRemove }: SymptomListProps) {
+  if (selectedSymptoms.length === 0) return null;
 
   return (
-    <div>
-      {/* علائم عمومی و سیستمیک فقط وقتی که کاربر یک علامت را انتخاب کرد نمایش داده می‌شود */}
-      {isGeneralVisible && (
-        <div>
-          <h3>علائم عمومی و سیستمیک</h3>
-          {symptoms.find(symptom => symptom.id === 'general')?.options.map((option) => (
-            <div key={option.id}>
-              <input
-                type="checkbox"
-                checked={selectedSymptoms.includes(option.id)}
-                onChange={() => handleSelectSymptom(option.id, true)}
-              />
-              <label>{option.label}</label>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* سایر علائم اختصاصی نمایش داده می‌شود */}
-      {symptoms.filter(symptom => symptom.id !== 'general').map((symptom) => (
-        <div key={symptom.id}>
-          <h3>{symptom.label}</h3>
-          {symptom.options.map((option) => (
-            <div key={option.id}>
-              <input
-                type="checkbox"
-                checked={selectedSymptoms.includes(option.id)}
-                onChange={() => handleSelectSymptom(option.id, symptom.id === 'general')}
-              />
-              <label>{option.label}</label>
-            </div>
-          ))}
-        </div>
-      ))}
-
-      {/* دکمه برای جابجایی علائم عمومی و سیستمیک */}
-      {isGeneralVisible && (
-        <button onClick={handleToggleGeneral}>
-          بستن علائم عمومی و سیستمیک
-        </button>
-      )}
-    </div>
+    <Box sx={{ mt: 2 }}>
+      <Typography variant="subtitle1" color="warning.dark" gutterBottom>
+        علائم انتخاب شده
+      </Typography>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+        {selectedSymptoms.map((symptom, index) => (
+          <Chip
+            key={`${symptom.symptomId}-${symptom.optionId}`}
+            label={`${symptom.symptomLabel}: ${symptom.optionLabel}`}
+            onDelete={() => onRemove(symptom)}
+            color="warning"
+            variant="outlined"
+            deleteIcon={<X size={16} />}
+            sx={{
+              animation: 'fadeIn 0.3s ease-out',
+              animationDelay: `${index * 100}ms`
+            }}
+          />
+        ))}
+      </Box>
+    </Box>
   );
-};
-
-export default SymptomsComponent;
-
+}
 
