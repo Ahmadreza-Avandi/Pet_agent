@@ -17,7 +17,6 @@ interface SymptomSelectProps {
   onSymptomChange: (symptomId: string) => void;
   onOptionSelect: (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => void;
   animalType: string;
-  onAddSymptom: (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => void;
 }
 
 export function SymptomSelect({
@@ -25,8 +24,7 @@ export function SymptomSelect({
   selectedSymptom,
   onSymptomChange,
   onOptionSelect,
-  animalType,
-  onAddSymptom
+  animalType
 }: SymptomSelectProps) {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // ذخیره گزینه‌های انتخاب‌شده
   const selectedSymptomData = symptoms.find(s => s.id === selectedSymptom);
@@ -36,10 +34,8 @@ export function SymptomSelect({
   const availableSymptoms = filteredSymptoms.filter(s => !selectedOptions.includes(s.id));
 
   const handleOptionSelect = (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => {
-    // در اینجا می‌خواهیم وقتی که کاربر انتخاب می‌کند، لیست بسته نشود و گزینه انتخابی به لیست اضافه شود.
     onOptionSelect(symptomId, optionId, symptomLabel, optionLabel);
     setSelectedOptions(prev => [...prev, optionId]); // اضافه کردن به گزینه‌های انتخاب‌شده
-    onAddSymptom(symptomId, optionId, symptomLabel, optionLabel); // اضافه کردن علامت انتخابی به لیست علائم
   };
 
   return (
@@ -55,15 +51,6 @@ export function SymptomSelect({
           label="انتخاب علامت"
           onChange={(e) => onSymptomChange(e.target.value)}
           disabled={!animalType}
-          MenuProps={{
-            PaperProps: {
-              sx: {
-                maxHeight: '400px', // حداکثر ارتفاع لیست
-                overflow: 'auto',
-              },
-            },
-            disableScrollLock: true, // جلوگیری از بسته شدن خودکار لیست بعد از انتخاب
-          }}
         >
           <MenuItem value="">
             <em>انتخاب کنید</em>
@@ -92,7 +79,7 @@ export function SymptomSelect({
                   overflow: 'hidden',
                   textOverflow: 'ellipsis'
                 }}
-                disabled={selectedOptions.includes(option.id)} // فقط گزینه‌های انتخاب‌شده غیرفعال می‌شوند
+                disabled={selectedOptions.includes(option.id)} // غیرفعال کردن گزینه‌های انتخاب‌شده
               >
                 {option.label}
               </Button>
