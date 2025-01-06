@@ -1,104 +1,78 @@
 import React, { useState } from 'react';
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Box,
-  Button,
-  Grid,
-  Typography
-} from '@mui/material';
-import { Symptom } from '../data/symptoms';
 
-interface SymptomSelectProps {
-  symptoms: Symptom[];
-  selectedSymptom: string;
-  onSymptomChange: (symptomId: string) => void;
-  onOptionSelect: (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => void;
-  animalType: string;
-  onAddSymptom: (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => void;
-}
+// نمونه‌ی علائم شما
+import { symptoms } from './data/symptoms';
 
-export function SymptomSelect({
-  symptoms,
-  selectedSymptom,
-  onSymptomChange,
-  onOptionSelect,
-  animalType,
-  onAddSymptom
-}: SymptomSelectProps) {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // ذخیره گزینه‌های انتخاب‌شده
-  const selectedSymptomData = symptoms.find(s => s.id === selectedSymptom);
+const SymptomsComponent = () => {
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
+  const [isGeneralVisible, setIsGeneralVisible] = useState<boolean>(false);
 
-  // فیلتر علائم با توجه به نوع حیوان
-  const filteredSymptoms = symptoms.filter(s => s.animalTypes.includes(animalType));
+  const handleSelectSymptom = (symptomId: string, isGeneral: boolean) => {
+    setSelectedSymptoms((prevSelected) => {
+      if (prevSelected.includes(symptomId)) {
+        // اگر قبلاً انتخاب شده بود، آن را حذف می‌کنیم
+        return prevSelected.filter(id => id !== symptomId);
+      }
+      // در غیر اینصورت، آن را به لیست اضافه می‌کنیم
+      return [...prevSelected, symptomId];
+    });
 
-  const handleOptionSelect = (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => {
-    onOptionSelect(symptomId, optionId, symptomLabel, optionLabel);
-    setSelectedOptions(prev => [...prev, optionId]); // اضافه کردن به گزینه‌های انتخاب‌شده
-    onAddSymptom(symptomId, optionId, symptomLabel, optionLabel); // اضافه کردن علامت انتخابی به لیست علائم
+    // اگر علائم عمومی انتخاب شده باشد، آن را نمایش می‌دهیم
+    if (isGeneral) {
+      setIsGeneralVisible(true);
+    }
+  };
+
+  const handleToggleGeneral = () => {
+    setIsGeneralVisible(prev => !prev);
   };
 
   return (
-    <Box sx={{ mt: 2 }}>
-      <Typography variant="subtitle1" color="warning.dark" gutterBottom>
-        علائم مشاهده شده
-      </Typography>
-
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>انتخاب علامت</InputLabel>
-        <Select
-          value={selectedSymptom}
-          label="انتخاب علامت"
-          onChange={(e) => onSymptomChange(e.target.value)}
-          disabled={!animalType}
-          MenuProps={{
-            PaperProps: {
-              sx: {
-                maxHeight: '400px', // حداکثر ارتفاع لیست
-                overflow: 'auto',
-              },
-            },
-            disableScrollLock: true, // جلوگیری از بسته شدن خودکار لیست بعد از انتخاب
-          }}
-        >
-          <MenuItem value="">
-            <em>انتخاب کنید</em>
-          </MenuItem>
-          {filteredSymptoms.map(symptom => (
-            <MenuItem key={symptom.id} value={symptom.id}>
-              {symptom.label}
-            </MenuItem>
+    <div>
+      {/* علائم عمومی و سیستمیک فقط وقتی که کاربر یک علامت را انتخاب کرد نمایش داده می‌شود */}
+      {isGeneralVisible && (
+        <div>
+          <h3>علائم عمومی و سیستمیک</h3>
+          {symptoms.find(symptom => symptom.id === 'general')?.options.map((option) => (
+            <div key={option.id}>
+              <input
+                type="checkbox"
+                checked={selectedSymptoms.includes(option.id)}
+                onChange={() => handleSelectSymptom(option.id, true)}
+              />
+              <label>{option.label}</label>
+            </div>
           ))}
-        </Select>
-      </FormControl>
-
-      {selectedSymptomData && (
-        <Grid container spacing={1}>
-          {selectedSymptomData.options.map(option => (
-            <Grid item xs={12} sm={6} md={4} key={option.id}>
-              <Button
-                fullWidth
-                variant="outlined"
-                color="warning"
-                onClick={() => handleOptionSelect(selectedSymptom, option.id, selectedSymptomData.label, option.label)}
-                sx={{
-                  justifyContent: 'flex-start',
-                  textAlign: 'right',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis'
-                }}
-                disabled={selectedOptions.includes(option.id)} // فقط گزینه‌های انتخاب‌شده غیرفعال می‌شوند
-              >
-                {option.label}
-              </Button>
-            </Grid>
-          ))}
-        </Grid>
+        </div>
       )}
-    </Box>
+
+      {/* سایر علائم اختصاصی نمایش داده می‌شود */}
+      {symptoms.filter(symptom => symptom.id !== 'general').map((symptom) => (
+        <div key={symptom.id}>
+          <h3>{symptom.label}</h3>
+          {symptom.options.map((option) => (
+            <div key={option.id}>
+              <input
+                type="checkbox"
+                checked={selectedSymptoms.includes(option.id)}
+                onChange={() => handleSelectSymptom(option.id, symptom.id === 'general')}
+              />
+              <label>{option.label}</label>
+            </div>
+          ))}
+        </div>
+      ))}
+
+      {/* دکمه برای جابجایی علائم عمومی و سیستمیک */}
+      {isGeneralVisible && (
+        <button onClick={handleToggleGeneral}>
+          بستن علائم عمومی و سیستمیک
+        </button>
+      )}
+    </div>
   );
-}
+};
+
+export default SymptomsComponent;
+
 
