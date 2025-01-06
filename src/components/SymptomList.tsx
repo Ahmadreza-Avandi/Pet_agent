@@ -36,6 +36,7 @@ export function SymptomSelect({
   const availableSymptoms = filteredSymptoms.filter(s => !selectedOptions.includes(s.id));
 
   const handleOptionSelect = (symptomId: string, optionId: string, symptomLabel: string, optionLabel: string) => {
+    // در اینجا می‌خواهیم وقتی که کاربر انتخاب می‌کند، لیست بسته نشود و گزینه انتخابی به لیست اضافه شود.
     onOptionSelect(symptomId, optionId, symptomLabel, optionLabel);
     setSelectedOptions(prev => [...prev, optionId]); // اضافه کردن به گزینه‌های انتخاب‌شده
     onAddSymptom(symptomId, optionId, symptomLabel, optionLabel); // اضافه کردن علامت انتخابی به لیست علائم
